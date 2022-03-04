@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: rgb(64, 104, 130);
+}
+
+#wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+  width: auto;
+  background-color: rgb(105, 152, 171);
+}
+
+#calculatorBody {
+  margin: 0 auto;
+  width: 300px;
+  height: 500px;
+}
