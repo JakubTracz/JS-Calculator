@@ -13,10 +13,29 @@ body {
   margin: auto;
   width: auto;
   background-color: rgb(105, 152, 171);
+  border-radius: 2%;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: larger;
 }
 
 #calculatorBody {
   margin: 0 auto;
   width: 300px;
   height: 500px;
+  border: 1px solid black;
+  border-radius: 2%;
+}
+
+td {
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 5%;
+}
+
+td.screen {
+}
+
+td.calculator-button {
+  width: 25%;
+  cursor: pointer;
 }
