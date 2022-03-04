@@ -25,11 +25,10 @@ class Calculator {
       }
     };
     this.eraseCurrentValue = () => {
-      this.view.windows.calculationWindow.textContent = 0;
+      this.view.clearCalculationsScreen();
     };
     this.eraseAll = () => {
-      this.view.windows.calculationWindow.textContent = 0;
-      this.view.windows.resultWindow.textContent = 0;
+      this.view = new View();
       result = 0;
     };
     this.getResult = () => result;

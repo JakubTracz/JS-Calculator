@@ -15,6 +15,6 @@ calculator.view.buttons.eraseCurrentButton.addEventListener(
 
 calculator.view.writeables.forEach((button) => {
   button.addEventListener('click', function () {
-    calculator.view.Write(this);
+    calculator.view.write(this);
   });
 });
