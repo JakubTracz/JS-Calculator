@@ -1,8 +1,8 @@
 class Calculator {
   constructor() {
-    this.view = new View();
     let result = 0;
     this.compute = (value, operation) => {
+      var data = this.view.parseCalculation();
       switch (operation) {
         case '+':
           result += value;
@@ -23,7 +23,10 @@ class Calculator {
         default:
           break;
       }
+      console.log(data);
+      this.view.displayResult(result);
     };
+
     this.eraseCurrentValue = () => {
       this.view.clearCalculationsScreen();
     };

@@ -1,9 +1,8 @@
 const calculator = new Calculator();
 
-calculator.view.buttons.computeButton.addEventListener(
-  'click',
-  calculator.compute
-);
+calculator.view.buttons.computeButton.addEventListener('click', function () {
+  calculator.compute();
+});
 calculator.view.buttons.eraseAllButton.addEventListener(
   'click',
   calculator.eraseAll
