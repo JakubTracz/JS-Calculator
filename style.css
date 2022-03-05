@@ -16,13 +16,14 @@ body {
   border-radius: 2%;
   font-family: 'Ubuntu', sans-serif;
   font-size: larger;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #calculatorBody {
   margin: 0 auto;
   width: 300px;
   height: 500px;
-  border: 1px solid black;
+  border: 1.5px solid black;
   border-radius: 2%;
 }
 
@@ -32,10 +33,20 @@ td {
   border-radius: 5%;
 }
 
-/* td.screen { */
-/* } */
+td.screen {
+  background-color: rgb(85, 131, 149);
+}
+
+td#calculations-screen {
+  padding-right: 10%;
+  text-align: right;
+}
 
 td.calculator-button {
   width: 25%;
   cursor: pointer;
+}
+
+td.number-button {
+  background-color: rgb(85, 131, 149);
 }

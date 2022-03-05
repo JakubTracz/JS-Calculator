@@ -1,34 +1,38 @@
 class Calculator {
   constructor() {
     let result = 0;
-    this.compute = (value, operation) => {
-      var data = this.view.parseCalculation();
-      switch (operation) {
+    let lastOperator = '';
+    this.compute = () => {
+      var values = this.view.parseCalculation();
+      switch (lastOperator) {
         case '+':
-          result += value;
+          result = values[0] + values[1];
           break;
         case '-':
-          result -= value;
+          result = values[0] - values[1];
           break;
         case '*':
-          result *= value;
+          result = values[0] * values[1];
           break;
         case '/':
-          result /= value;
+          result = values[0] / values[1];
           break;
         case '%':
           //TODO: implement percentage
-          result *= value;
+          result = values[0] + values[1];
           break;
         default:
           break;
       }
-      console.log(data);
       this.view.displayResult(result);
     };
 
+    this.setLastOperator = (element) => {
+      lastOperator = element.textContent;
+    };
     this.eraseCurrentValue = () => {
       this.view.clearCalculationsScreen();
+      this.view.resetState();
     };
     this.eraseAll = () => {
       this.view = new View();

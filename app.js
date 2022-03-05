@@ -17,3 +17,9 @@ calculator.view.writeables.forEach((button) => {
     calculator.view.write(this);
   });
 });
+
+calculator.view.buttons.operationButtons.forEach((button) => {
+  button.addEventListener('click', function () {
+    calculator.setLastOperator(this);
+  });
+});

@@ -1,15 +1,21 @@
 class View {
   constructor() {
-    const initialState = 'initial';
-    const calculationState = 'calculating';
-    this.states = ['initial', 'running'];
+    const appStates = {
+      initial: 'initial',
+      computing: 'computing',
+      computed: 'computed',
+      invalid: 'invalid',
+    };
     this.operators = ['%', '+', '-', '*', '/'];
     this.decimalPoint = '.';
-    let state = initialState;
+
+    let state = appStates.initial;
+
     this.buttons = {
       computeButton: document.getElementById('compute-button'),
       eraseCurrentButton: document.getElementById('erase-current-button'),
       eraseAllButton: document.getElementById('erase-all-button'),
+      operationButtons: document.querySelectorAll('.operation-button'),
     };
     this.screens = {
       resultScreen: document.getElementById('result-screen'),
@@ -18,7 +24,7 @@ class View {
     this.writeables = document.querySelectorAll('.writeable');
     this.getState = state;
     this.resetState = () => {
-      state = initialState;
+      state = appStates.initial;
     };
 
     this.containsOperator = (value, operators = this.operators) => {
@@ -41,32 +47,44 @@ class View {
       const screen = this.screens.calculationsScreen;
       const currentValue = screen.textContent;
 
+      if (!this.canWrite(value, currentValue)) return;
+
+      if (state === appStates.initial && value !== this.decimalPoint) {
+        screen.textContent = value;
+        state = appStates.computing;
+        return;
+      }
+      screen.textContent = currentValue + value;
+      state = appStates.computing;
+    };
+
+    this.canWrite = (value, currentValue) => {
+      const lastValue = this.getLastValue();
+
       //if any operator already written
       if (this.operators.includes(value) && this.containsOperator(currentValue))
-        return;
+        return false;
 
-      //if initial state for operators
-      if (this.operators.includes(value) && state === initialState) return;
+      //if is in initial state for operators
+      if (this.operators.includes(value) && state === appStates.initial)
+        return false;
 
-      //   decimal point
+      //prevent two decimal points in a row
       if (
         value === this.decimalPoint &&
         currentValue.includes(this.decimalPoint)
       )
-        return;
+        return false;
 
-      let lastValue = this.getLastValue();
-      if (this.containsOperator(lastValue)) {
-      }
-
-      if (state === initialState && value !== this.decimalPoint) {
-        screen.textContent = value;
-        state = calculationState;
-        return;
-      }
-      screen.textContent = screen.textContent + value;
-      state = calculationState;
+      //if value is an operator or decimal point and so is the last value
+      if (
+        (value === this.decimalPoint || this.operators.includes(value)) &&
+        (this.operators.includes(lastValue) || lastValue === this.decimalPoint)
+      )
+        return false;
+      return true;
     };
+
     this.clearAllScreens = () => {
       this.clearCalculationsScreen();
       this.clearResultScreen();
