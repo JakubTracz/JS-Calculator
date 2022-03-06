@@ -2,65 +2,103 @@ class Writer {
   constructor() {
     this.currentView;
   }
-  PopulateView(value, context, negation, caller) {
+  PopulateView(viewBag) {
     let view = this.currentView;
-    value = this.#TrimDecimalPoint(value);
-    switch (context) {
+    switch (viewBag.context) {
       case appContexts.initial:
-        switch (caller) {
-          case 'operation-button':
-            view.calculations = view.currentValue + value;
+        switch (viewBag.caller) {
+          case callers.operator:
+            view.calculations = view.currentValue + viewBag.value;
             break;
-          case 'decimal-button':
-            if (!this.#IsDecimalNumber(this.currentView.currentValue)) {
-              view.currentValue = this.currentView.currentValue + value;
+          case callers.decimal:
+            if (!this.#IsDecimalNumber(view.currentValue)) {
+              view.currentValue = viewBag.firstOperand;
             }
             break;
-          case 'number':
-            view.currentValue = value;
+          default:
+            view.currentValue = viewBag.value;
             break;
         }
+        break;
       case appContexts.firstOperand:
-        if (value === decimalPoint) {
-          if (this.#IsDecimalNumber(this.currentView.currentValue)) {
-            view = this.currentView;
+        switch (viewBag.caller) {
+          case callers.negate:
+            view.currentValue = viewBag.firstOperand;
             break;
-          }
+          case callers.decimal:
+            if (this.#IsDecimalNumber(view.currentValue)) {
+              break;
+            }
+            view.currentValue = viewBag.firstOperand;
+            break;
+          case callers.operator:
+            view.calculations = view.currentValue + viewBag.value;
+          default:
+            view.currentValue = viewBag.firstOperand;
+            break;
         }
-        if (negation) {
-          view.currentValue = value;
-          break;
-        }
-        if (this.#IsOperator(value)) {
-          view.calculations = view.currentValue + value;
-          break;
-        }
-        view.currentValue = view.currentValue + value;
+        break;
       case appContexts.operator:
-        if (this.#IsOperator(value)) {
-          view.calculations = view.calculations.replace(
-            view.calculations.charAt(view.calculations.length - 1),
-            value
-          );
-          break;
+        switch (viewBag.caller) {
+          case callers.negate:
+            view.currentValue = viewBag.secondOperand;
+            view.calculations =
+              view.currentValue > 0
+                ? (view.calculations += view.currentValue)
+                : view.calculations + '(' + view.currentValue + ')';
+            break;
+          case callers.operator:
+            view.calculations = view.calculations.replace(
+              view.calculations.charAt(view.calculations.length - 1),
+              viewBag.value
+            );
+            break;
+          case callers.number:
+            view.currentValue = viewBag.secondOperand;
+            view.calculations = view.calculations + viewBag.secondOperand;
+            break;
+          case callers.decimal:
         }
-        if (negation) {
-          view.calculations =
-            value > 0
-              ? (view.calculations = view.calculations + value)
-              : view.calculations + '(' + value + ')';
-          view.currentValue = value;
-          break;
-        }
-        view.currentValue = value;
-        view.calculations = view.calculations + value;
+        break;
       case appContexts.secondOperand:
-        if (this.#IsOperator(value)) {
-          view.calculations = view.calculations.replace(
-            view.calculations.charAt(view.calculations.length - 1),
-            value
-          );
-          break;
+        switch (viewBag.caller) {
+          case callers.number:
+            view.currentValue += viewBag.value;
+            view.calculations += viewBag.value;
+            break;
+          case callers.negate:
+            view.currentValue = viewBag.secondOperand;
+            view.calculations =
+              view.currentValue > 0
+                ? viewBag.firstOperand + viewBag.operator + view.currentValue
+                : viewBag.firstOperand +
+                  viewBag.operator +
+                  '(' +
+                  view.currentValue +
+                  ')';
+            break;
+          case callers.decimal:
+            view.currentValue = viewBag.secondOperand;
+            view.calculations =
+              viewBag.firstOperand + viewBag.operator + viewBag.secondOperand;
+            break;
+          case callers.operator:
+            view.calculations =
+              viewBag.secondOperand > 0
+                ? viewBag.firstOperand +
+                  viewBag.operator +
+                  viewBag.secondOperand
+                : viewBag.firstOperand +
+                  viewBag.operator +
+                  '(' +
+                  view.currentValue +
+                  ')';
+          case callers.compute:
+            view.currentValue = '';
+            view.calculations = '';
+            view.result = viewBag.result;
+          default:
+            break;
         }
       default:
         break;
@@ -72,15 +110,7 @@ class Writer {
     this.currentView = view;
     return view;
   }
-  #TrimDecimalPoint(value) {
-    return value.toString().endsWith('.') && value !== '.'
-      ? value.slice(0, -1)
-      : value;
-  }
   #IsDecimalNumber(value) {
     return value.toString().includes('.');
-  }
-  #IsOperator(value) {
-    return operators.includes(value);
   }
 }
