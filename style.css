@@ -2,7 +2,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: rgb(64, 104, 130);
+  background-color: rgb(175, 195, 209);
 }
 
 #wrapper {
@@ -34,7 +34,7 @@ td {
 }
 
 td.screen {
-  background-color: rgb(85, 131, 149);
+  background-color: rgb(66, 107, 124);
 }
 
 td#calculations-screen {
