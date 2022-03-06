@@ -34,28 +34,26 @@ class Calculator {
         return;
       }
 
-      this.#SetCurrentValue(value);
+      this.#SetCurrentValues(value);
 
       switch (this.currentContext) {
         case appContexts.initial:
           switch (caller) {
-            case callers.compute:
-            case callers.negate:
-            case callers.eraseCurrent:
+            case callers.number:
+            case callers.decimal:
+              this.currentContext = appContexts.firstOperand;
+              break;
+            case callers.operator:
+              this.currentContext = appContexts.operator;
+              this.currentOperator = value;
+              break;
+            default:
               this.resetCalculator();
               return;
-            default:
-              if (element.classList.contains(callers.operator)) {
-                this.currentContext = appContexts.operator;
-                this.currentOperator = value;
-                break;
-              }
-              this.currentContext = appContexts.firstOperand;
           }
           break;
         case appContexts.firstOperand:
           switch (caller) {
-            case callers.eraseAll:
             case callers.eraseCurrent:
               this.resetCalculator();
               return;
@@ -69,12 +67,10 @@ class Calculator {
           break;
         case appContexts.operator:
           switch (caller) {
-            case callers.eraseAll:
             case callers.eraseCurrent:
               this.resetCalculator();
               return;
             case callers.number:
-              this.secondOperand = value;
               this.currentContext = appContexts.secondOperand;
               break;
             case callers.operator:
@@ -90,16 +86,33 @@ class Calculator {
           switch (caller) {
             case callers.compute:
               this.currentContext = appContexts.computed;
-              this.result = this.compute();
               break;
             case callers.operator:
               this.currentOperator = value;
               break;
+            case callers.eraseCurrent:
+              this.currentContext = appContexts.operator;
+              break;
             default:
               break;
           }
+          break;
         case appContexts.computed:
-
+          switch (caller) {
+            case callers.operator:
+              this.currentContext = appContexts.operator;
+              this.currentOperator = value;
+              break;
+            case callers.eraseCurrent:
+              this.resetCalculator();
+              return;
+            case callers.compute:
+              this.currentContext = appContexts.computed;
+              break;
+            default:
+              this.currentContext = appContexts.firstOperand;
+              break;
+          }
         default:
           break;
       }
@@ -152,7 +165,7 @@ class Calculator {
     this.init();
   }
 
-  #SetCurrentValue(value) {
+  #SetCurrentValues(value) {
     switch (this.currentContext) {
       case appContexts.initial:
         switch (this.caller) {
@@ -226,8 +239,41 @@ class Calculator {
             }
             this.secondOperand += value;
             return;
+          case callers.eraseCurrent:
+            this.secondOperand = 0;
+            return;
+          case callers.compute:
+            this.result = this.compute();
           default:
             return;
+        }
+      case appContexts.computed:
+        switch (this.caller) {
+          case callers.number:
+            this.firstOperand = value;
+            this.secondOperand = 0;
+            this.result = 0;
+            break;
+          case callers.decimal:
+            this.firstOperand = this.result + value;
+            this.secondOperand = 0;
+            this.result = 0;
+          case callers.operator:
+            this.firstOperand = this.result;
+            this.secondOperand = 0;
+            this.result = 0;
+            break;
+          case callers.negate:
+            this.firstOperand = -Number.parseFloat(this.result);
+            this.secondOperand = 0;
+            this.result = 0;
+            break;
+          case callers.compute:
+            this.firstOperand = this.result;
+            this.secondOperand = this.secondOperand;
+            this.result = this.compute();
+          default:
+            break;
         }
     }
   }

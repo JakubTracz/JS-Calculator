@@ -34,7 +34,7 @@ td {
 }
 
 td.screen {
-  background-color: rgb(66, 107, 124);
+  background-color: rgb(139, 169, 182);
 }
 
 td#calculations-screen {
@@ -49,4 +49,8 @@ td.calculator-button {
 
 td.number-button {
   background-color: rgb(85, 131, 149);
+}
+.calculator-button:hover {
+  background-color: rgb(44, 71, 83);
+  transition: all, 0.2s ease;
 }

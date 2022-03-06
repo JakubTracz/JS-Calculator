@@ -20,14 +20,16 @@
     <main>
       <div id="wrapper">
         <table id="calculatorBody">
+          <tr class="screens">
+              <td class="screen" colspan="1" id="current-value-screen"></td>
+              <td class="screen" colspan="2" id="calculations-screen"></td>
+              <td class="screen" colspan="1" id="result-screen"></td>
+            </tr>
+          <tbody class="buttons">
           <tr>
-            <td class="screen" colspan="1" id="current-value-screen"></td>
-            <td class="screen" colspan="2" id="calculations-screen"></td>
-            <td class="screen" colspan="1" id="result-screen"></td>
-          </tr>
-          <tr>
-            <td class="calculator-button operation-button writeable">%</td>
-            <td class="calculator-button" id="erase-current-button">CE</td>
+            <td class="calculator-button" colspan="2" id="erase-current-button">
+              CE
+            </td>
             <td class="calculator-button" id="erase-all-button">C</td>
             <td class="calculator-button operation-button writeable">+</td>
           </tr>
@@ -55,6 +57,7 @@
             <td class="calculator-button writeable" id="decimal-button">.</td>
             <td class="calculator-button" id="compute-button">=</td>
           </tr>
+        </div>
         </table>
       </div>
     </main>
