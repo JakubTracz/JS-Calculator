@@ -201,6 +201,9 @@ class Calculator {
             this.firstOperand = value;
             return;
           default:
+            if (this.firstOperand.endsWith('.')) {
+              this.firstOperand = this.firstOperand.slice(0, -1);
+            }
             return;
         }
       case appContexts.operator:

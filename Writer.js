@@ -28,7 +28,7 @@ class Writer {
             }
             break;
           case callers.operator:
-            view.calculations = view.currentValue + viewBag.operator;
+            view.calculations = viewBag.firstOperand + viewBag.operator;
             break;
           default:
             view.currentValue = viewBag.firstOperand;
@@ -73,7 +73,7 @@ class Writer {
           case callers.negate:
             view.currentValue = viewBag.secondOperand;
             view.calculations =
-              view.currentValue > 0
+              view.currentValue >= 0
                 ? viewBag.firstOperand + viewBag.operator + view.currentValue
                 : viewBag.firstOperand +
                   viewBag.operator +
@@ -84,7 +84,7 @@ class Writer {
           case callers.decimal:
             view.currentValue = viewBag.secondOperand;
             view.calculations =
-              viewBag.secondOperand > 0
+              viewBag.secondOperand >= 0
                 ? viewBag.firstOperand +
                   viewBag.operator +
                   viewBag.secondOperand
@@ -96,18 +96,18 @@ class Writer {
             break;
           case callers.operator:
             view.calculations =
-              viewBag.secondOperand > 0
+              viewBag.secondOperand >= 0
                 ? viewBag.firstOperand +
                   viewBag.operator +
                   viewBag.secondOperand
                 : viewBag.firstOperand +
                   viewBag.operator +
                   '(' +
-                  view.currentValue +
+                  viewBag.secondOperand +
                   ')';
             break;
           case callers.eraseCurrent:
-            view.currentValue = '';
+            view.currentValue = viewBag.firstOperand;
             view.calculations = viewBag.firstOperand + viewBag.operator;
             break;
           case callers.compute:
@@ -123,6 +123,7 @@ class Writer {
           case callers.number:
           case callers.negate:
             view.currentValue = viewBag.firstOperand;
+            view.calculations = '';
             view.result = '';
             break;
           case callers.operator:
