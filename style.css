@@ -5,29 +5,92 @@ body {
   background-color: rgb(35, 35, 36);
 }
 
-#wrapper {
+.sectionWrapper {
   position: absolute;
   top: 50%;
   left: 50%;
+  width: 300px;
+  height: 500px;
   transform: translate(-50%, -50%);
   margin: auto;
-  padding: 10px;
-  width: auto;
-  background-color: rgb(35, 35, 36);
+  border: 1.5px solid rgb(68, 214, 44);
+  box-shadow: 0 4px 8px 0 rgba(68, 214, 44, 0.2),
+    0 6px 20px 0 rgba(68, 214, 44, 0.19);
   border-radius: 2%;
   font-family: 'Ubuntu', sans-serif;
   font-size: larger;
   color: white;
-  border: 1.5px solid rgb(68, 214, 44);
+  transition: all 1s ease;
+}
+
+.sectionWrapper.hidden {
+  opacity: 0;
+}
+.sectionWrapper.visible {
+  opacity: 1;
+}
+
+#wrapper {
+  z-index: 1;
+  background-color: rgb(35, 35, 36);
+}
+
+.menuWrapper {
+  position: absolute;
+  width: 100%;
+  height: 15%;
+  margin: auto 0;
   border-radius: 2.5%;
-  box-shadow: 0 4px 8px 0 rgba(68, 214, 44, 0.2),
-    0 6px 20px 0 rgba(68, 214, 44, 0.19);
+}
+#historyButtonWrapper {
+  position: absolute;
+  top: 70%;
+  right: 2.5%;
+  transform: translate(0, -50%);
+  background-color: rgb(35, 35, 36);
+  height: 60%;
+  margin: auto 0;
+  border-radius: 2.5%;
+}
+
+#historyButtonWrapper button {
+  display: block;
+  position: absolute;
+  height: 100%;
+  top: 10%;
+  right: 0%;
+  margin-right: 4%;
+  background-color: rgb(35, 35, 36);
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: medium;
+  color: white;
+  font-weight: bold;
+  border-radius: 5%;
+  transition: all, 0.1s ease;
+}
+
+#historyButtonWrapper button:hover {
+  border-bottom: 1px solid rgb(44, 174, 214);
+  background-color: rgb(45, 45, 48);
+}
+
+#calculatorWrapper {
+  position: absolute;
+  top: 15%;
+  width: 100%;
+  height: 85%;
 }
 
 table#calculatorBody {
-  margin: 0 auto;
-  width: 300px;
-  height: 500px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 95%;
+  height: 95%;
   table-layout: fixed;
   cursor: pointer;
 }
@@ -35,7 +98,7 @@ table#calculatorBody {
 td {
   text-align: center;
   border: 1px solid rgb(68, 214, 44);
-  border-radius: 2.5%;
+  border-radius: 4%;
   overflow: hidden;
   white-space: nowrap;
 }
@@ -45,7 +108,6 @@ td.screen {
   opacity: 1;
   cursor: default;
   background-color: rgb(24, 24, 27);
-  margin: 5px;
 }
 
 td#calculations-screen {
@@ -57,10 +119,44 @@ td#calculations-screen {
 td.calculator-button {
   width: 25%;
   margin: 5px;
+  transition: all, 0.2s ease;
 }
 
 .calculator-button:hover {
-  background-color: rgb(56, 136, 43);
+  background-color: rgb(45, 45, 48);
   color: aqua;
-  transition: all, 0.2s ease;
+  color: lightgrey;
+}
+#history-wrapper {
+  background-color: gray;
+  border: 1px solid rgb(44, 174, 214);
+  box-shadow: 0 4px 8px 0 rgba(44, 208, 214, 0.2),
+    0 6px 20px 0 rgba(44, 208, 214, 0.2);
+}
+
+#history-wrapper.visible {
+  transform: translate(150px, -50%);
+  margin-left: 4px;
+  width: 350px;
+}
+
+#history-wrapper h4 {
+  color: rebeccapurple;
+}
+
+#history-screen {
+  position: absolute;
+  overflow-y: auto;
+  top: 15%;
+  height: 85%;
+  width: 100%;
+  margin-top: 10px;
+}
+.calculation-history-item {
+  padding: 12px;
+  margin: 0;
+}
+.calculation-history-item:hover {
+  background-color: rgba(44, 208, 214, 0.2);
+  cursor: default;
 }

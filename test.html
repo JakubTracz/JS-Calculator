@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      #btn {
+        width: 100px;
+        height: 100px;
+      }
+      #wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 1px solid black;
+        width: 100px;
+        height: 100px;
+      }
+      #wrapper div {
+        position: absolute;
+        /* top: 0px;
+        left: 0px; */
+        background-color: aqua;
+        width: 100px;
+        height: 100px;
+      }
+      #one.move {
+        transform: translate(100%, 0);
+        background-color: blueviolet;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="btn">Click</button>
+    <div id="wrapper">
+      <div id="one"></div>
+      <div id="two"></div>
+    </div>
+    <script>
+      document.getElementById('btn').addEventListener('click', function () {
+        document.getElementById('one').classList.add('move');
+      });
+    </script>
+  </body>
+</html>

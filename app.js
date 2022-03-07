@@ -21,13 +21,26 @@ const decimalPoint = '.';
 const calculator = new Calculator();
 const rendering = calculator.rendering;
 
-rendering.buttons.compute.addEventListener('click', calculator.handleEvents);
-rendering.buttons.eraseAll.addEventListener('click', calculator.handleEvents);
-rendering.buttons.negate.addEventListener('click', calculator.handleEvents);
-rendering.buttons.eraseCurrent.addEventListener(
-  'click',
-  calculator.handleEvents
-);
-rendering.buttons.writeables.forEach((button) => {
-  button.addEventListener('click', calculator.handleEvents);
-});
+window.onload = () => {
+  rendering.ToogleDisplay(rendering.mainWrapper);
+  rendering.buttons.history.addEventListener('click', function () {
+    rendering.ToogleDisplay(rendering.historyWrapper);
+  });
+  rendering.buttons.compute.addEventListener('click', calculator.handleEvents);
+  rendering.buttons.eraseAll.addEventListener('click', calculator.handleEvents);
+  rendering.buttons.negate.addEventListener('click', calculator.handleEvents);
+  rendering.buttons.eraseCurrent.addEventListener(
+    'click',
+    calculator.handleEvents
+  );
+  rendering.buttons.writeables.forEach((button) => {
+    button.addEventListener('click', calculator.handleEvents);
+  });
+};
+
+var target = rendering;
+
+const handler = {};
+const proxy = new Proxy(target, handler);
+
+console.log(proxy.view);
